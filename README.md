@@ -1,14 +1,14 @@
 # User Analytics Application
 
-A simple full-stack user analytics app built using Node.js, Express, MongoDB, and React.
+A full-stack user interaction analytics application built with Node.js, Express, MongoDB, and React.
 
-It tracks user interactions (`page_view` and `click` with coordinates) from a webpage and displays them on a dashboard.
+Tracks user interactions (`page_view` and `click` with coordinates) from a webpage and displays them in a dashboard.
 
 ---
 
 ## Tech Stack
 - **Frontend:** React, Pure CSS
-- **Backend:** Node.js, Express (MVC pattern)
+- **Backend:** Node.js, Express (MVC architecture)
 - **Database:** MongoDB (Mongoose)
 - **Tracking:** Vanilla JavaScript
 
@@ -18,51 +18,50 @@ It tracks user interactions (`page_view` and `click` with coordinates) from a we
 ```
 UserAnalyticsApplication/
 ├── server/
-│   ├── config/db.js              # Database connection
-│   ├── models/eventModel.js      # Event schema
+│   ├── config/db.js                   # Database connection
+│   ├── models/eventModel.js           # Event schema
 │   ├── controllers/eventController.js # Event & session logic
-│   ├── routes/eventRoutes.js     # API routes
-│   └── server.js                 # App entry point
+│   ├── routes/eventRoutes.js          # API routes
+│   └── server.js                      # Server entry point
 ├── tracker/
-│   ├── tracker.js                # Tracking script
-│   └── index.html                # Demo testing page
-├── dashboard/                    # React dashboard
+│   ├── tracker.js                     # Tracking script
+│   └── index.html                     # Demo testing page
+├── dashboard/                         # React dashboard
 └── README.md
 ```
 
 ---
 
-## How to Run Locally
+## Setup & Running
 
-### 1. Make sure MongoDB is running
+### 1. Start MongoDB
+Ensure MongoDB is running locally:
 ```bash
 mongod
 ```
 
-### 2. Install & Start Server
+### 2. Start Application
 ```bash
 cd server
 npm install
 node server.js
 ```
 
-### 3. Open in Browser
-Everything runs on **one single URL**:
-
-👉 **`http://localhost:5000`** — Opens the React Analytics Dashboard  
-👉 **`http://localhost:5000/demo`** — Opens the Demo webpage to test tracking clicks and views
+### 3. Open Application
+- **Dashboard:** `http://localhost:5000`
+- **Demo Page:** `http://localhost:5000/demo`
 
 ---
 
 ## API Endpoints
-- `POST /api/events` — Save event (`page_view` or `click`)
-- `GET /api/sessions` — List all sessions with event counts
-- `GET /api/sessions/:sessionId` — Get ordered events for a session (User Journey)
-- `GET /api/heatmap` — Get click coordinates for heatmap
+- `POST /api/events` — Ingests event data (`page_view` or `click`)
+- `GET /api/sessions` — Returns list of all sessions with event counts
+- `GET /api/sessions/:sessionId` — Returns chronological events for a session (User Journey)
+- `GET /api/heatmap` — Returns click coordinates for a given page URL
 
 ---
 
-## Notes & Trade-offs
-- **Vanilla JS Tracker:** Used a simple ~50 lines JavaScript script without external libraries for minimal footprint.
-- **Single URL:** The backend serves the built React dashboard, the demo test page, and the API from one single port (`5000`) so you don't need multiple terminal windows or different ports.
-- **Direct Database Writes:** Saved events directly to MongoDB for simplicity without needing extra queue tools like Redis or Kafka.
+## Trade-offs & Implementation Notes
+- **Lightweight Tracker:** Used a small vanilla JavaScript script with native `fetch` and `localStorage` (with cookie fallback) to keep page load impact minimal.
+- **Direct Database Writes:** Persisted incoming events directly to MongoDB for simplicity and quick querying.
+- **Pure CSS Layout:** Built UI with standard CSS Grid and Flexbox instead of adding heavy external UI libraries.
