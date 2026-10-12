@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Analytics Demo Page</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      margin: 0;
+      padding: 24px;
+      background: #f8fafc;
+      color: #1e293b;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: white;
+      padding: 16px 24px;
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
+      margin-bottom: 24px;
+    }
+    .hero {
+      background: #4f46e5;
+      color: white;
+      padding: 48px;
+      border-radius: 12px;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    .hero button {
+      margin-top: 16px;
+      background: white;
+      color: #4f46e5;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+    }
+    .card {
+      background: white;
+      padding: 24px;
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
+    }
+    .card button {
+      margin-top: 12px;
+      background: #0ea5e9;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .tag {
+      display: inline-block;
+      padding: 4px 8px;
+      background: #e2e8f0;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 13px;
+    }
+  </style>
+  <!-- Load Analytics Tracker -->
+  <script src="/tracker/tracker.js"></script>
+</head>
+<body>
+  <div class="header">
+    <h2>Demo Webpage for Event Tracking</h2>
+    <div>
+      Current Session: <span class="tag" id="sessionTag">Loading...</span>
+      <button onclick="newSession()" style="margin-left: 10px; cursor: pointer; padding: 4px 8px;">New Session</button>
+    </div>
+  </div>
+
+  <div class="hero">
+    <h1>Welcome to Our Store</h1>
+    <p>Every page view and click anywhere on this page is being tracked to MongoDB.</p>
+    <button id="cta-button" onclick="alert('CTA clicked!')">Click Call-to-Action</button>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <h3>Product Card A</h3>
+      <p>Testing click tracking on standard interactive components.</p>
+      <button id="btn-buy-a" onclick="alert('Bought Item A')">Buy Product A</button>
+    </div>
+    <div class="card">
+      <h3>Product Card B</h3>
+      <p>Click coordinates (x, y) will show up accurately on the heatmap.</p>
+      <button id="btn-buy-b" onclick="alert('Bought Item B')">Buy Product B</button>
+    </div>
+    <div class="card">
+      <h3>Newsletter Signup</h3>
+      <p>Try clicking different parts of this card or the background.</p>
+      <button id="btn-subscribe" onclick="alert('Subscribed')">Subscribe Now</button>
+    </div>
+  </div>
+
+  <div style="margin-top: 30px; text-align: center; color: #64748b;">
+    <p><a href="http://localhost:5173" target="_blank" style="color: #4f46e5; font-weight: 600;">Open Analytics Dashboard &rarr;</a></p>
+  </div>
+
+  <script>
+    setTimeout(() => {
+      if (window.getCurrentAnalyticsSession) {
+        document.getElementById('sessionTag').textContent = window.getCurrentAnalyticsSession();
+      }
+    }, 100);
+
+    function newSession() {
+      localStorage.removeItem('analytics_session_id');
+      document.cookie = "analytics_session_id=; path=/; max-age=0";
+      location.reload();
+    }
+  </script>
+</body>
+</html>
