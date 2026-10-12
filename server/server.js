@@ -14,12 +14,25 @@ connectDB();
 app.use(cors());
 app.use(express.json());
 
-// Serve test tracker webpage
-app.use('/tracker', express.static(path.join(__dirname, '../tracker')));
-
-// API Routes
+// 1. API Routes
 app.use('/api', eventRoutes);
 
+// 2. Static tracker script
+app.use('/tracker', express.static(path.join(__dirname, '../tracker')));
+
+// 3. Demo test webpage at /demo
+app.get('/demo', (req, res) => {
+  res.sendFile(path.join(__dirname, '../tracker/index.html'));
+});
+
+// 4. Serve React Dashboard static files
+app.use(express.static(path.join(__dirname, '../dashboard/dist')));
+
+// SPA fallback for any other route
+app.use((req, res) => {
+  res.sendFile(path.join(__dirname, '../dashboard/dist/index.html'));
+});
+
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`Server running at http://localhost:${PORT}`);
 });

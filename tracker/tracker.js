@@ -1,8 +1,7 @@
 (function () {
-  const API_URL = 'http://localhost:5000/api/events';
+  const API_URL = '/api/events';
   const STORAGE_KEY = 'analytics_session_id';
 
-  // Retrieve existing session_id or create a new one
   function getSessionId() {
     let id = localStorage.getItem(STORAGE_KEY);
     if (!id) {
@@ -17,7 +16,6 @@
     return id;
   }
 
-  // Send event payload using fetch()
   function sendEvent(data) {
     fetch(API_URL, {
       method: 'POST',
@@ -30,7 +28,6 @@
     });
   }
 
-  // Track page_view event on load
   function trackPageView() {
     sendEvent({
       session_id: getSessionId(),
@@ -40,7 +37,6 @@
     });
   }
 
-  // Track click event with x and y coordinates
   function trackClick(e) {
     sendEvent({
       session_id: getSessionId(),
@@ -52,10 +48,8 @@
     });
   }
 
-  // Attach event listeners
   window.addEventListener('load', trackPageView);
   document.addEventListener('click', trackClick, true);
 
-  // Helper for demo page display
   window.getCurrentAnalyticsSession = getSessionId;
 })();

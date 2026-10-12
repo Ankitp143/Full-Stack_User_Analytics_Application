@@ -1,4 +1,5 @@
-const API_BASE = 'http://localhost:5000/api';
+// In production / unified mode, API calls go directly to the same host
+const API_BASE = '/api';
 
 export const fetchSessions = async () => {
   const res = await fetch(`${API_BASE}/sessions`);

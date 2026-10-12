@@ -16,7 +16,7 @@ export default function Sidebar({ currentView, onSelectView }) {
       </button>
 
       <a
-        href="http://localhost:5000/tracker/index.html"
+        href="/demo"
         target="_blank"
         rel="noreferrer"
         className="demo-link"
